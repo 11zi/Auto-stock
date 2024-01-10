@@ -16,3 +16,5 @@ tsconfig.tsbuildinfo
 *.ntvs*
 *.njsproj
 *.sln
+src/index - 副本.ts
+src/stock.json
