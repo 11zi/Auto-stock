@@ -132,18 +132,18 @@ function stock_calc2(price, personalStock) {
  */
 function stock_calc3(price, personalStock) {
   var result = 0
-  var MONEY_SUTD = 5.00000
+  var multi = 2.00000
 
   if (price == 1.00000) return result
   if (price < 0.10000) return 0
 
   // 买个几十股
   if(price<0.3) {
-    result = Math.floor(MONEY_SUTD / (price))
+    result = Math.floor(multi / (price * price))
     if(result > personalStock) result -= personalStock
     else result = 0
   }
-  if(price>1.7 && false) result = Math.floor(personalStock / 2) - personalStock
+  if(price>1.7) result = Math.floor(personalStock / 2) - personalStock
   if(price>20) result = -personalStock
   return result
 }
