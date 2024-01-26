@@ -1,6 +1,6 @@
 {
-  "name": "koishi-plugin-auto-stock",
-  "description": "aaaa",
+  "name": "iirose-auto-stock",
+  "description": "在某个价格买入，并在某个价格卖出",
   "version": "0.0.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",

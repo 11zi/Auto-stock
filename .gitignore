@@ -18,3 +18,5 @@ tsconfig.tsbuildinfo
 *.sln
 src/index - 副本.ts
 src/stock.json
+src/pickle.js
+src/stock_model.pkl
