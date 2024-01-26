@@ -5,7 +5,7 @@
 1.  [[koishi]花园机器人搭建教程](https://forum.reifuu.icu/d/9-koishihua-yuan-ji-qi-ren-da-jian-jiao-cheng)
 2.  放置于`../external`目录下
 3.  `npm run`
-4.  在`插件配置->添加插件`添加本插件
+4.  在`插件配置->添加插件`添加插件`scxnpwxn`
 5.  以开发者模式重新启动机器人
     `npm run dev`
 

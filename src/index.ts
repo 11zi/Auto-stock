@@ -1,22 +1,22 @@
 import { Context, Logger, Schema, Session } from 'koishi'
 import { } from "koishi-plugin-adapter-iirose"
 import { readFile } from 'fs'
+import { config } from 'process'
 
 // const nodePickle = require('node-pickle')
 
 export const name = 'auto-stock'
 
 export interface Config { 
-
+  multi: number,
+  strategy: number
 }
-
-export const Config: Schema<Config> = Schema.object({})
 
 export function apply(ctx: Context) {
   const logger = new Logger('stock')
   var last_money = 0
-  var isDead = false
-
+  let isDead = false
+  
   /**
    * 2分钟执行一次，和花园股票刷新同步
    */
@@ -36,8 +36,7 @@ export function apply(ctx: Context) {
         }
         
         if(data.unitPrice<0.10000) isDead=true
-        // var result = stock_calc1(data.unitPrice, data.totalStock, data.personalStock)
-        var result = stock_calc3(data.unitPrice, data.personalStock)
+        var result = stock_calc3(data.unitPrice, data.totalStock, data.personalStock)
         // logger.info(`价 ${data.unitPrice}，${result}股，花 ${data.unitPrice*result}，持 ${data.personalStock+result}`)
 
         if (result == 0) {
@@ -53,19 +52,6 @@ export function apply(ctx: Context) {
       })
     // }, 1)
   })
-
-  /**
-   * 当有人好奇你的炒股情况
-   */
-  // ctx.on('message', (session) => {
-  //   if (session.content == `查股票`) {
-  //     ctx.emit('iirose/stockGet', (data) => {
-  //       var msg = `当前股价 ${data.unitPrice}，总股 ${data.totalStock}，持股 ${data.personalStock}，余额 ${data.personalMoney}`
-  //       session.send(msg)
-  //     })
-  //   }
-  // })
-
 }
 
 /**
@@ -76,7 +62,7 @@ export function apply(ctx: Context) {
  * @returns 交易额
  */
 function stock_calc1(price, stock, personalStock) {
-  var multi = 3500 / stock
+  var multi = 1
   var result = 0
 
   if (price == 1.00000) return result
@@ -107,12 +93,12 @@ function stock_calc1(price, stock, personalStock) {
 }
 
 /**
- * 炒股策略2号  总是留30块在里面
+ * 炒股策略2号  总是留一些钱在里面
  * @param price 股价
  * @param personalStock 持股
  * @returns 交易额
  */
-function stock_calc2(price, personalStock) {
+function stock_calc2(price, stock, personalStock) {
   var result = 9
   var MONEY_KEEP = 10.00000
 
@@ -125,14 +111,14 @@ function stock_calc2(price, personalStock) {
 }
 
 /**
- * 炒股策略3号  铁血的梭哈机器
+ * 炒股策略3号  软化的梭哈机器
  * @param price 股价
  * @param personalStock 持股
  * @returns 交易额
  */
-function stock_calc3(price, personalStock) {
+function stock_calc3(price, stock, personalStock) {
   var result = 0
-  var multi = 2.00000
+  var multi = 2.34567
 
   if (price == 1.00000) return result
   if (price < 0.10000) return 0
@@ -143,7 +129,7 @@ function stock_calc3(price, personalStock) {
     if(result > personalStock) result -= personalStock
     else result = 0
   }
-  if(price>1.7) result = Math.floor(personalStock / 2) - personalStock
-  if(price>20) result = -personalStock
+  if(price>0.7) result = Math.floor(personalStock / 2) - personalStock
+  // if(price>8) result = -personalStock
   return result
 }
